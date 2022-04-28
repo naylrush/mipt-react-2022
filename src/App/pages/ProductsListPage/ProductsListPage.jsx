@@ -2,7 +2,6 @@ import { Input, Layout } from 'antd';
 import * as React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import productsSample from '../../../mock/products-sample';
 import tagsSample from '../../../mock/tags-sample.json';
 
 import Product from './components/Product';
