@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Col, Divider } from 'antd';
+import { Button, Col } from 'antd';
 import Title from 'antd/es/typography/Title';
 
 import SellOption from './components/SellOption';

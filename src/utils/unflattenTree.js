@@ -1,4 +1,4 @@
-export const unflatten = (tags) => {
+const unflatten = (tags) => {
   const hashTable = Object.create(null);
 
   tags.forEach(
@@ -23,3 +23,5 @@ export const unflatten = (tags) => {
 
   return tagsTree;
 };
+
+export default unflatten;

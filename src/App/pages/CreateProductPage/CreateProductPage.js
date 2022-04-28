@@ -3,7 +3,7 @@ import Title from 'antd/es/typography/Title';
 import * as React from 'react';
 import { useFormik } from 'formik';
 
-import productsSample from '../../../mock/products-sample.json';
+import store from '../../../store';
 
 import Attributes from './components/Attributes';
 import Tags from './components/Tags';
@@ -12,22 +12,12 @@ import Images from './components/Images';
 
 import styles from './CreateProductPage.module.css';
 
-const attributes = productsSample.products
-  .map((product) => {
-    for (const attribute in product.attributes) {
-      product.attributes[attribute] = '';
-    }
-
-    return product;
-  })
-  .reduce((acc, { attributes }) => ({ ...acc, ...attributes }), {});
-
 const CreateProductPage = () => {
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
-      attributes,
+      attributes: store.productAttributes(),
       images: [''],
       sellOptions: [{}],
       tag: '',

@@ -2,20 +2,10 @@ import { Select, Divider, Input, Typography, Space, Form, Row } from 'antd';
 import * as React from 'react';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
-import productsSample from '../../../../../../../mock/products-sample.json';
-
-const initialOptionsTypes = Object.keys(
-  productsSample.products.reduce((acc, product) => {
-    const options = product.sellOptions
-      .map(({ type }) => type)
-      .reduce((acc, optionType) => ({ ...acc, [optionType]: true }), acc);
-
-    return { ...acc, ...options };
-  }, {})
-);
+import store from '../../../../../../../store';
 
 const SellOption = ({ value, setValue }) => {
-  const [options, setOptions] = React.useState(initialOptionsTypes);
+  const [options, setOptions] = React.useState(store.productSellOptionsTypes());
   const [newOption, setNewOption] = React.useState('');
 
   const onAddOption = () => {

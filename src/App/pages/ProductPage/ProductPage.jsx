@@ -13,7 +13,7 @@ import Text from 'antd/es/typography/Text';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
-import productsSample from '../../../mock/products-sample';
+import store from '../../../store';
 import { calculateProductRating } from '../../../utils/calculateProductRating';
 
 import Breadcrumbs from './components/Breadcrumbs';
@@ -32,7 +32,7 @@ const ProductPage = () => {
     sellOptions,
     tag,
   } = React.useMemo(
-    () => productsSample.products.find((product) => product.usin === usin),
+    () => store.products().find((product) => product.usin === usin),
     [usin]
   );
 
@@ -65,7 +65,12 @@ const ProductPage = () => {
         </div>
         <div className={styles['sell-options']}>
           {sellOptions.map(({ price, currency, type }) => (
-            <Button className={styles['sell-option']} block size="large">
+            <Button
+              key={type}
+              className={styles['sell-option']}
+              block
+              size="large"
+            >
               <Statistic
                 className={styles['sell-option__stat']}
                 key={type}

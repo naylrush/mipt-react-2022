@@ -2,11 +2,7 @@ import * as React from 'react';
 import Title from 'antd/es/typography/Title';
 import { TreeSelect } from 'antd';
 
-import tagsSample from '../../../../../mock/tags-sample.json';
-
-import { unflatten } from './utils';
-
-const tagsTree = unflatten(tagsSample);
+import store from '../../../../../store';
 
 const Tags = ({ value, setValue }) => (
   <>
@@ -17,7 +13,7 @@ const Tags = ({ value, setValue }) => (
       treeDefaultExpandAll
       value={value}
       onChange={setValue}
-      treeData={tagsTree}
+      treeData={store.tagsTree()}
     />
   </>
 );
