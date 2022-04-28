@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Title from 'antd/es/typography/Title';
-import { Form, TreeSelect } from 'antd';
+import { TreeSelect } from 'antd';
 
 import tagsSample from '../../../../../mock/tags-sample.json';
 
@@ -8,12 +8,17 @@ import { unflatten } from './utils';
 
 const tagsTree = unflatten(tagsSample);
 
-const Tags = () => (
+const Tags = ({ value, setValue }) => (
   <>
     <Title level={5}>Tags</Title>
-    <Form.Item name="tag" label="Tag">
-      <TreeSelect showSearch treeDefaultExpandAll treeData={tagsTree} />
-    </Form.Item>
+    <TreeSelect
+      style={{ width: '100%' }}
+      showSearch
+      treeDefaultExpandAll
+      value={value}
+      onChange={setValue}
+      treeData={tagsTree}
+    />
   </>
 );
 

@@ -1,72 +1,84 @@
-import { Button, Divider, Form, Input, Layout, Select, TreeSelect } from 'antd';
+import { Divider, Form, Input, Layout } from 'antd';
 import Title from 'antd/es/typography/Title';
 import * as React from 'react';
+import { useFormik } from 'formik';
 
-import SellOption from './components/SellOption';
+import productsSample from '../../../mock/products-sample.json';
 
-import styles from './CreateProductPage.module.css';
 import Attributes from './components/Attributes';
 import Tags from './components/Tags';
+import SellOptions from './components/SellOptions';
+import Images from './components/Images';
+
+import styles from './CreateProductPage.module.css';
+
+const attributes = productsSample.products
+  .map((product) => {
+    for (const attribute in product.attributes) {
+      product.attributes[attribute] = '';
+    }
+
+    return product;
+  })
+  .reduce((acc, { attributes }) => ({ ...acc, ...attributes }), {});
 
 const CreateProductPage = () => {
-  const [sellOptions, setSellOptions] = React.useState([{}]);
-
-  const onAddOneMoreOption = React.useCallback(() => {
-    setSellOptions((sellOptions) => [...sellOptions, {}]);
-  }, []);
-
-  const onDeleteOption = (optionIndex) => {
-    setSellOptions((sellOptions) =>
-      sellOptions.filter((option, index) => optionIndex !== index)
-    );
-  };
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      description: '',
+      attributes,
+      images: [''],
+      sellOptions: [{}],
+      tag: '',
+    },
+    // validationSchema: {},
+    onSubmit: () => {},
+  });
 
   return (
     <Layout>
       <Layout.Content className={styles['form']}>
         <Title level={1}>Create new product</Title>
 
-        <Form scrollToFirstError>
-          <Form.Item
+        <Form onSubmit={formik.handleSubmit}>
+          <Input
             name="title"
-            label="Title"
-            rules={[
-              {
-                required: true,
-                message: 'Enter product title',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+            placeholder="title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+          />
 
-          <Form.Item name="description" label="Description">
-            <Input.TextArea maxLength={200} />
-          </Form.Item>
+          <Input.TextArea
+            name="description"
+            placeholder="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+          />
 
           <Divider />
-          <Attributes />
+          <Images
+            values={formik.values.images}
+            setValues={(values) => formik.setFieldValue('images', values)}
+          />
 
           <Divider />
-          <Tags />
+          <Attributes
+            values={formik.values.attributes}
+            setValues={(values) => formik.setFieldValue('attributes', values)}
+          />
 
           <Divider />
-          <Title level={5}>Sells options</Title>
+          <Tags
+            value={formik.values.tag}
+            setValue={(value) => formik.setFieldValue('tag', value)}
+          />
 
-          {sellOptions.map((option, index) => (
-            <React.Fragment key={index}>
-              <SellOption index={index + 1} />
-              {sellOptions.length !== 1 && (
-                <Button onClick={() => onDeleteOption(index)}>
-                  Delete option
-                </Button>
-              )}
-              {index !== sellOptions.length - 1 && <Divider />}
-            </React.Fragment>
-          ))}
-          <div style={{ padding: '20px 0' }}>
-            <Button onClick={onAddOneMoreOption}>Add one more option</Button>
-          </div>
+          <Divider />
+          <SellOptions
+            values={formik.values.sellOptions}
+            setValues={(values) => formik.setFieldValue('sellOptions', values)}
+          />
         </Form>
       </Layout.Content>
     </Layout>

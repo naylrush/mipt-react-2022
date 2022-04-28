@@ -1,28 +1,27 @@
 import Title from 'antd/es/typography/Title';
 import * as React from 'react';
 
-import productsSample from '../../../../../mock/products-sample.json';
-import { Form, Input } from 'antd';
+import { Input } from 'antd';
 
-const attributes = Object.keys(
-  productsSample.products.reduce(
-    (acc, { attributes }) => ({ ...acc, ...attributes }),
-    {}
-  )
-).map((attribute) => ({
-  name: attribute,
-  label: `${attribute.charAt(0).toUpperCase()}${attribute.slice(1)}`,
-}));
+const Attributes = ({ values, setValues }) => {
+  const onChange = (event, key) => {
+    setValues({ ...values, [key]: event.target.value });
+  };
 
-const Attributes = () => (
-  <>
-    <Title level={5}>Product attributes</Title>
-    {attributes.map(({ name, label }) => (
-      <Form.Item name={name} label={label} key={label}>
-        <Input />
-      </Form.Item>
-    ))}
-  </>
-);
+  return (
+    <>
+      <Title level={5}>Product attributes</Title>
+      {Object.entries(values).map(([key, value]) => (
+        <Input
+          key={key}
+          name={key}
+          value={value}
+          onChange={(event) => onChange(event, key)}
+          placeholder={key}
+        />
+      ))}
+    </>
+  );
+};
 
 export default Attributes;
