@@ -11,7 +11,7 @@ import {
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import store from '../../../store';
 import { calculateProductRating } from '../../../utils/calculateProductRating';
@@ -23,6 +23,14 @@ import styles from './ProductPage.module.css';
 const ProductPage = () => {
   const { usin } = useParams();
 
+  const product = store.getProductByUsin(usin);
+
+  console.log(product);
+
+  if (!product) {
+    return <Navigate to="/product/list" replace />;
+  }
+
   const {
     images,
     title,
@@ -31,15 +39,9 @@ const ProductPage = () => {
     ratings,
     sellOptions,
     tag,
-  } = React.useMemo(
-    () => store.products().find((product) => product.usin === usin),
-    [usin]
-  );
+  } = product;
 
-  const rating = React.useMemo(
-    () => calculateProductRating(ratings),
-    [ratings]
-  );
+  const rating = calculateProductRating(ratings);
 
   return (
     <Layout>
