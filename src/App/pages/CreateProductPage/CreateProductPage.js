@@ -1,6 +1,7 @@
-import { Divider, Form, Input, Layout } from 'antd';
+import { Button, Divider, Form, Input, Layout } from 'antd';
 import Title from 'antd/es/typography/Title';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import store from '../../../store';
@@ -13,6 +14,8 @@ import Images from './components/Images';
 import styles from './CreateProductPage.module.css';
 
 const CreateProductPage = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -22,8 +25,10 @@ const CreateProductPage = () => {
       sellOptions: [{}],
       tag: '',
     },
-    // validationSchema: {},
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      store.addProduct(values);
+      navigate('/list');
+    },
   });
 
   return (
@@ -69,6 +74,10 @@ const CreateProductPage = () => {
             values={formik.values.sellOptions}
             setValues={(values) => formik.setFieldValue('sellOptions', values)}
           />
+
+          <Button type="primary" onClick={formik.handleSubmit}>
+            Add product
+          </Button>
         </Form>
       </Layout.Content>
     </Layout>

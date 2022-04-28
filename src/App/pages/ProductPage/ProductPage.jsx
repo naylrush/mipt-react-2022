@@ -95,12 +95,14 @@ const ProductPage = () => {
           <Descriptions.Item label="Dimensions">{dimensions}</Descriptions.Item>
           <Descriptions.Item label="Paperback">{paperback}</Descriptions.Item>
         </Descriptions>
-        <div className={styles['rating']}>
-          <Rate value={rating.totalRating} allowHalf />
-          <span className={styles['total-rates']}>
-            {rating.totalRating.toPrecision(3)} ({rating.totalRates} rates)
-          </span>
-        </div>
+        {!!rating.totalRates && (
+          <div className={styles['rating']}>
+            <Rate value={rating.totalRating} allowHalf />
+            <span className={styles['total-rates']}>
+              {rating.totalRating.toPrecision(3)} ({rating.totalRates} rates)
+            </span>
+          </div>
+        )}
         <div className={styles['stats']}>
           {ratings.map(({ rate, amount }) => (
             <div key={rate}>

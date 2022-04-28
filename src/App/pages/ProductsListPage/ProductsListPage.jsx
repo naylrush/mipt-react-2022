@@ -29,7 +29,7 @@ const ProductsListPage = () => {
       path: '/',
       search: !searchValue ? '' : `?search=${searchValue}`,
     });
-  }, [searchValue]);
+  }, [navigate, searchValue]);
 
   return (
     <Layout>
